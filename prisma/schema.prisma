@@ -1,10 +1,145 @@
-
-
-generator client {
-  provider = "prisma-client-js"
+model Usuarios{
+  idUsuario         Int @id @default(autoincrement())
+  nombre            String 
+  correo            String @unique
+  password          String 
+  tipoUsuario       Int
+  telefono          String
+  fechaCreacion     DateTime @default(now())
+  fechaModificacion DateTime
+  borrado           Int @default(0)
 }
 
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+model Propietarios{
+  idPropietario     Int @id @default(autoincrement())
+  nombre            String 
+  apaterno          String
+  amaterno          String
+  correo            String
+  telefono          String
+  direccion         String
+  rfc               String
+  tipoPropietario   Int
+  fechaCreacion     DateTime @default(now())
+  fechaModificacion DateTime
+  borrado           Int @default(0)
+  idUsuario         Int
+  
+  usuario           Usuarios @relation(fields: [idUsuario], references: [idUsuario])
+}
+
+model Arrendatarios {
+  idArrendatario    Int @id @default(autoincrement())
+  nombre            String 
+  email             String @unique
+  telefono          String
+  rfc               String
+  direccion         String
+  foto              FotoArrendatario[]
+  fechaCreacion     DateTime @default(now())
+  fechaModificacion DateTime
+  borrado           Int @default(0)
+}
+
+
+
+
+model Propiedades {
+  idPropiedad           Int @id @default(autoincrement())
+  nombre                String
+  tipoPropiedad         Int
+  descripcion           String
+  ubicacion             String
+  costo                 Float
+  anticipioMinimo       Float 
+  mesesMinimo           Int
+  fechaCreacion         DateTime @default(now())
+  fechaModificacion     DateTime
+  fotos                 FotoPropiedad[]
+  borrado               Int @default(0)
+  estado                Boolean @default(false)
+  idPropietario         Int
+
+  propietario           Propietarios @relation(fields: [idPropietario], references: [idPropietario])
+
+}
+
+model FotoArrendatario {
+  idFoto                Int @id @default(autoincrement())
+  idArrendatario        Int
+  fechaCreacion         DateTime @default(now())
+  fechaModificacion     DateTime @updatedAt
+
+  arrendatario Arrendatarios @relation(fields: [idArrendatario], references: [idArrendatario])
+}
+
+model FotoPropiedad {
+  idFoto                Int @id @default(autoincrement())
+  idPropiedad           Int
+  fechaCreacion         DateTime @default(now())
+  fechaModificacion     DateTime @updatedAt
+
+  propiedad Propiedades @relation(fields: [idPropiedad], references: [idPropiedad])
+}
+
+model Mantenimientos {
+  idMantenimiento         Int @id @default(autoincrement())
+  tipoMantenimiento       Int 
+  descripcion             String
+  proveedor               String
+  precio                  Float
+  fechaMantenimiento      DateTime
+  fechaCreacion           DateTime @default(now())
+  fechaModificacion       DateTime
+  borrado                 Int @default(0)
+  //Mantenimiento no va relacionado con el contrato y cada uno va por cuenta del propietario
+  idPropiedad             Int
+
+  propiedad               Propiedades @relation(fields: [idPropiedad], references: [idPropiedad])
+}
+
+model Contrato {
+  idContrato            Int @id @default(autoincrement())
+  contrato              String
+  tipoContrato          Int
+  fechaContrato         DateTime
+  fechaInicio           DateTime
+  fechaFin              DateTime
+  deposito              Float
+  duracion              Int
+  fechaCreacion         DateTime @default(now())
+  fechaModificacion     DateTime
+  estado                Boolean @default(true)
+  borrado               Int @default(0)
+  idPropiedad           Int
+  idArrendatario        Int
+  idPropietario         Int
+
+  propiedad             Propiedades @relation(fields: [idPropiedad, idPropietario], references: [idPropiedad,idPropietario])
+  arrendatario          Arrendatarios @relation(fields: [idArrendatario], references: [idArrendatario])
+}
+
+model Pagos {
+  idPago                Int @id @default(autoincrement())
+  fechaVencimiento      DateTime
+  fechaPago             DateTime
+  pago                  Float
+  numPago               Int  @default(autoincrement()) @unique
+  mes                   Int @default(1)
+  anio                  Int @default(0)
+  fechaCracion          DateTime
+  fechaModificacion     DateTime
+  borrado               Int
+  idContrato            Int
+
+  contrato              Contrato @relation(fields: [idContrato], references: [idContrato])
+}
+
+model Factura {
+  idFactura Int @id @default(autoincrement())
+  rfcPropietario String
+  rfcArrendatario String
+  ubicacion String
+  numFolio String
+  //selloDigitalSat 
 }

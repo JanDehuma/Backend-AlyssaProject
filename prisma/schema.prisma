@@ -8,6 +8,8 @@ model Usuarios{
   fechaCreacion     DateTime @default(now())
   fechaModificacion DateTime
   borrado           Int @default(0)
+
+  propietarios      Propietarios[]
 }
 
 model Propietarios{
@@ -24,6 +26,8 @@ model Propietarios{
   fechaModificacion DateTime
   borrado           Int @default(0)
   idUsuario         Int
+
+  propiedades       Propiedades[]
   
   usuario           Usuarios @relation(fields: [idUsuario], references: [idUsuario])
 }
@@ -35,10 +39,12 @@ model Arrendatarios {
   telefono          String
   rfc               String
   direccion         String
-  foto              FotoArrendatario[]
   fechaCreacion     DateTime @default(now())
   fechaModificacion DateTime
   borrado           Int @default(0)
+
+  foto              Fotos[]
+  contrato          Contrato[]
 }
 
 
@@ -46,7 +52,7 @@ model Arrendatarios {
 
 model Propiedades {
   idPropiedad           Int @id @default(autoincrement())
-  nombre                String
+  nombre                String 
   tipoPropiedad         Int
   descripcion           String
   ubicacion             String
@@ -55,32 +61,31 @@ model Propiedades {
   mesesMinimo           Int
   fechaCreacion         DateTime @default(now())
   fechaModificacion     DateTime
-  fotos                 FotoPropiedad[]
   borrado               Int @default(0)
   estado                Boolean @default(false)
   idPropietario         Int
+
+  fotos                 Fotos[]
+  mantenimientos        Mantenimientos[]
+  contrato              Contrato[]
 
   propietario           Propietarios @relation(fields: [idPropietario], references: [idPropietario])
 
 }
 
-model FotoArrendatario {
+model Fotos {
   idFoto                Int @id @default(autoincrement())
   idArrendatario        Int
+  idPropiedad           Int
+  url                   String
   fechaCreacion         DateTime @default(now())
   fechaModificacion     DateTime @updatedAt
 
   arrendatario Arrendatarios @relation(fields: [idArrendatario], references: [idArrendatario])
-}
-
-model FotoPropiedad {
-  idFoto                Int @id @default(autoincrement())
-  idPropiedad           Int
-  fechaCreacion         DateTime @default(now())
-  fechaModificacion     DateTime @updatedAt
-
   propiedad Propiedades @relation(fields: [idPropiedad], references: [idPropiedad])
 }
+
+
 
 model Mantenimientos {
   idMantenimiento         Int @id @default(autoincrement())
@@ -115,7 +120,9 @@ model Contrato {
   idArrendatario        Int
   idPropietario         Int
 
-  propiedad             Propiedades @relation(fields: [idPropiedad, idPropietario], references: [idPropiedad,idPropietario])
+  pagos                 Pagos[]
+
+  propiedad             Propiedades @relation(fields: [idPropiedad], references: [idPropiedad])
   arrendatario          Arrendatarios @relation(fields: [idArrendatario], references: [idArrendatario])
 }
 
@@ -124,7 +131,7 @@ model Pagos {
   fechaVencimiento      DateTime
   fechaPago             DateTime
   pago                  Float
-  numPago               Int  @default(autoincrement()) @unique
+  numPago               Int  @unique
   mes                   Int @default(1)
   anio                  Int @default(0)
   fechaCracion          DateTime

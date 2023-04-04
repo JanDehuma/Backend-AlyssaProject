@@ -14,9 +14,10 @@ model Usuarios{
 
 model Propietarios{
   idPropietario     Int @id @default(autoincrement())
+  idUsuario         Int
   nombre            String 
   apaterno          String
-  amaterno          String
+  amaterno          String?
   correo            String
   telefono          String
   direccion         String
@@ -25,8 +26,7 @@ model Propietarios{
   fechaCreacion     DateTime @default(now())
   fechaModificacion DateTime
   borrado           Int @default(0)
-  idUsuario         Int
-
+  
   propiedades       Propiedades[]
   
   usuario           Usuarios @relation(fields: [idUsuario], references: [idUsuario])
@@ -34,17 +34,19 @@ model Propietarios{
 
 model Arrendatarios {
   idArrendatario    Int @id @default(autoincrement())
+  idFoto            Int 
   nombre            String 
   email             String @unique
   telefono          String
   rfc               String
   direccion         String
+  comentarios       String 
   fechaCreacion     DateTime @default(now())
   fechaModificacion DateTime
   borrado           Int @default(0)
 
-  foto              Fotos[]
   contrato          Contrato[]
+  foto              Fotos @relation(fields: [idFoto], references: [idFoto])
 }
 
 
@@ -52,6 +54,9 @@ model Arrendatarios {
 
 model Propiedades {
   idPropiedad           Int @id @default(autoincrement())
+  idPropietario         Int
+  idFotoPropiedad       Int
+  idFotoUbicacion       Int
   nombre                String 
   tipoPropiedad         Int
   descripcion           String
@@ -63,32 +68,30 @@ model Propiedades {
   fechaModificacion     DateTime
   borrado               Int @default(0)
   estado                Boolean @default(false)
-  idPropietario         Int
-
-  fotos                 Fotos[]
+  
   mantenimientos        Mantenimientos[]
   contrato              Contrato[]
 
+  fotos                 Fotos @relation(fields: [idFotoPropiedad,idFotoUbicacion], references: [idFoto, idFoto])
   propietario           Propietarios @relation(fields: [idPropietario], references: [idPropietario])
-
 }
 
 model Fotos {
   idFoto                Int @id @default(autoincrement())
-  idArrendatario        Int
-  idPropiedad           Int
   url                   String
   fechaCreacion         DateTime @default(now())
   fechaModificacion     DateTime @updatedAt
 
-  arrendatario Arrendatarios @relation(fields: [idArrendatario], references: [idArrendatario])
-  propiedad Propiedades @relation(fields: [idPropiedad], references: [idPropiedad])
+  arrendatario          Arrendatarios[]
+  propiedad             Propiedades[]
+  contrato              Contrato[]
 }
 
 
 
 model Mantenimientos {
   idMantenimiento         Int @id @default(autoincrement())
+  idPropiedad             Int
   tipoMantenimiento       Int 
   descripcion             String
   proveedor               String
@@ -98,13 +101,15 @@ model Mantenimientos {
   fechaModificacion       DateTime
   borrado                 Int @default(0)
   //Mantenimiento no va relacionado con el contrato y cada uno va por cuenta del propietario
-  idPropiedad             Int
 
   propiedad               Propiedades @relation(fields: [idPropiedad], references: [idPropiedad])
 }
 
 model Contrato {
   idContrato            Int @id @default(autoincrement())
+  idArrendatario        Int
+  idPropietario         Int
+  idPropiedad           Int
   contrato              String
   tipoContrato          Int
   fechaContrato         DateTime
@@ -116,11 +121,9 @@ model Contrato {
   fechaModificacion     DateTime
   estado                Boolean @default(true)
   borrado               Int @default(0)
-  idPropiedad           Int
-  idArrendatario        Int
-  idPropietario         Int
 
   pagos                 Pagos[]
+  foto                  Fotos[]
 
   propiedad             Propiedades @relation(fields: [idPropiedad], references: [idPropiedad])
   arrendatario          Arrendatarios @relation(fields: [idArrendatario], references: [idArrendatario])
@@ -128,6 +131,7 @@ model Contrato {
 
 model Pagos {
   idPago                Int @id @default(autoincrement())
+  idContrato            Int
   fechaVencimiento      DateTime
   fechaPago             DateTime
   pago                  Float
@@ -137,7 +141,6 @@ model Pagos {
   fechaCracion          DateTime
   fechaModificacion     DateTime
   borrado               Int
-  idContrato            Int
 
   contrato              Contrato @relation(fields: [idContrato], references: [idContrato])
 }

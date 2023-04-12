@@ -1,3 +1,12 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
 model Usuarios{
   idUsuario         Int @id @default(autoincrement())
   nombre            String 
@@ -6,47 +15,46 @@ model Usuarios{
   tipoUsuario       Int
   telefono          String
   fechaCreacion     DateTime @default(now())
-  fechaModificacion DateTime
+  fechaModificacion DateTime @updatedAt
   borrado           Int @default(0)
 
   propietarios      Propietarios[]
+  foto              Fotos[]
 }
 
 model Propietarios{
   idPropietario     Int @id @default(autoincrement())
-  idUsuario         Int
   nombre            String 
   apaterno          String
   amaterno          String?
-  correo            String
+  email             String @unique
   telefono          String
   direccion         String
   rfc               String
   tipoPropietario   Int
   fechaCreacion     DateTime @default(now())
-  fechaModificacion DateTime
+  fechaModificacion DateTime @updatedAt
   borrado           Int @default(0)
   
   propiedades       Propiedades[]
+  idUsuario         Int
   
   usuario           Usuarios @relation(fields: [idUsuario], references: [idUsuario])
 }
 
 model Arrendatarios {
   idArrendatario    Int @id @default(autoincrement())
-  idFoto            Int 
   nombre            String 
   email             String @unique
   telefono          String
   rfc               String
   direccion         String
-  comentarios       String 
   fechaCreacion     DateTime @default(now())
-  fechaModificacion DateTime
+  fechaModificacion DateTime @updatedAt
   borrado           Int @default(0)
 
+  foto              Fotos[]
   contrato          Contrato[]
-  foto              Fotos @relation(fields: [idFoto], references: [idFoto])
 }
 
 
@@ -54,76 +62,75 @@ model Arrendatarios {
 
 model Propiedades {
   idPropiedad           Int @id @default(autoincrement())
-  idPropietario         Int
-  idFotoPropiedad       Int
-  idFotoUbicacion       Int
-  nombre                String 
+  nombre                String
   tipoPropiedad         Int
   descripcion           String
   ubicacion             String
   costo                 Float
-  anticipioMinimo       Float 
-  mesesMinimo           Int
+  anticipioMinimo       Float?
+  mesesMinimo           Int?
   fechaCreacion         DateTime @default(now())
-  fechaModificacion     DateTime
+  fechaModificacion     DateTime @updatedAt
   borrado               Int @default(0)
   estado                Boolean @default(false)
-  
-  mantenimientos        Mantenimientos[]
-  contrato              Contrato[]
 
-  fotos                 Fotos @relation(fields: [idFotoPropiedad,idFotoUbicacion], references: [idFoto, idFoto])
+  fotos                 Fotos[]
+  contrato              Contrato[]
+  mantenimiento         Mantenimientos[]
+
+  idPropietario         Int
+
   propietario           Propietarios @relation(fields: [idPropietario], references: [idPropietario])
 }
 
+
 model Fotos {
   idFoto                Int @id @default(autoincrement())
+  idPropiedad           Int?
+  idArrendatario        Int?
+  idUsuario             Int?
   url                   String
   fechaCreacion         DateTime @default(now())
   fechaModificacion     DateTime @updatedAt
 
-  arrendatario          Arrendatarios[]
-  propiedad             Propiedades[]
-  contrato              Contrato[]
+  usuario               Usuarios? @relation(fields: [idUsuario], references: [idUsuario])
+  propiedad             Propiedades? @relation(fields: [idPropiedad], references: [idPropiedad])
+  arrendatario          Arrendatarios? @relation(fields: [idArrendatario], references: [idArrendatario])
 }
-
-
 
 model Mantenimientos {
   idMantenimiento         Int @id @default(autoincrement())
-  idPropiedad             Int
   tipoMantenimiento       Int 
   descripcion             String
   proveedor               String
   precio                  Float
   fechaMantenimiento      DateTime
   fechaCreacion           DateTime @default(now())
-  fechaModificacion       DateTime
+  fechaModificacion       DateTime @updatedAt
   borrado                 Int @default(0)
   //Mantenimiento no va relacionado con el contrato y cada uno va por cuenta del propietario
+  idPropiedad             Int
 
   propiedad               Propiedades @relation(fields: [idPropiedad], references: [idPropiedad])
 }
 
 model Contrato {
   idContrato            Int @id @default(autoincrement())
-  idArrendatario        Int
-  idPropietario         Int
-  idPropiedad           Int
   contrato              String
   tipoContrato          Int
-  fechaContrato         DateTime
   fechaInicio           DateTime
-  fechaFin              DateTime
-  deposito              Float
+  fechaFin              DateTime //duda sobre si puede ser opcional
+  deposito              Float?
   duracion              Int
   fechaCreacion         DateTime @default(now())
-  fechaModificacion     DateTime
+  fechaModificacion     DateTime @updatedAt
   estado                Boolean @default(true)
   borrado               Int @default(0)
 
   pagos                 Pagos[]
-  foto                  Fotos[]
+
+  idPropiedad           Int
+  idArrendatario        Int
 
   propiedad             Propiedades @relation(fields: [idPropiedad], references: [idPropiedad])
   arrendatario          Arrendatarios @relation(fields: [idArrendatario], references: [idArrendatario])
@@ -131,20 +138,21 @@ model Contrato {
 
 model Pagos {
   idPago                Int @id @default(autoincrement())
-  idContrato            Int
   fechaVencimiento      DateTime
   fechaPago             DateTime
   pago                  Float
-  numPago               Int  @unique
+  numPago               Int @unique
   mes                   Int @default(1)
   anio                  Int @default(0)
   fechaCracion          DateTime
   fechaModificacion     DateTime
   borrado               Int
+  idContrato            Int
 
   contrato              Contrato @relation(fields: [idContrato], references: [idContrato])
 }
 
+//Falta llenar
 model Factura {
   idFactura Int @id @default(autoincrement())
   rfcPropietario String

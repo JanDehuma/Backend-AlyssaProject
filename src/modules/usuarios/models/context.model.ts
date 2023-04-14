@@ -1,5 +1,6 @@
-import { User } from "./user";
+import { Usuario } from './usuario.model';
+
 
 export interface ToDoContext{
-    user?: User
+    user?: Usuario
 }

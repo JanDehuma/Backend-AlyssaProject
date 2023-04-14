@@ -1,11 +1,11 @@
-import { IsEmail, IsStrongPassword, MaxLength } from "class-validator";
-import { Field, ID, InputType, Int, ObjectType } from "type-graphql";
+import { Field, InputType, Int } from "type-graphql";
+import { Usuario } from "../models/usuario.model";
+import { IsEmail, MaxLength } from "class-validator";
 
 @InputType({
-    description: "Input para actualizar un usuario"
+    description: "Input para creacion de usuario."
 })
-export class UpdateUsuarioInput {
-
+export class UsuarioInputCreate {
     @Field((type) => String, {description: "Nombre del usuario", nullable: true})
     @MaxLength(45)
     nombre: string;
@@ -20,7 +20,7 @@ export class UpdateUsuarioInput {
     @Field((type) => String, {description: "Contraseña del ususario, se necesitan al menos entre 6 y 15 caracteres, 1 mayuscula y un numero.",
     nullable: true})
     @MaxLength(15)
-    password?: String;
+    password: string;
 
     @Field((type) => Int, {description: "Tipo de usuario al que pertenece", nullable: true})
     tipoUsuario: number;

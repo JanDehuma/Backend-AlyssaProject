@@ -19,7 +19,7 @@
     "dev": "yarn generate && nodemon 'src/index.ts' --exec \"npx ts-node src/index.ts\" -e ts,graphql"
   },
   "dependencies": {
-    "@prisma/client": "^4.9.0",
+    "@prisma/client": "^4.12.0",
     "@tsed/ajv": "^7.13.3",
     "@tsed/common": "^7.13.3",
     "@tsed/core": "^7.13.3",
@@ -62,7 +62,7 @@
     "jsonwebtoken": "^9.0.0",
     "method-override": "^3.0.0",
     "passport": "^0.6.0",
-    "prisma": "^4.9.0",
+    "prisma": "^4.12.0",
     "type-graphql": "^1.1.1"
   },
   "devDependencies": {

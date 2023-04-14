@@ -1,12 +1,13 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Injectable } from "@tsed/di";
+import { UsuarioInputCreate } from "../inputs/usuario.input";
 
 
 @Injectable()
 export class UserRepository{
     constructor(private readonly prisma: PrismaClient){}
 
-    getAllUsuarios(id: number){
+    getAllUsuarios(){
         return this.prisma.usuarios.findMany();
     }
 
@@ -18,7 +19,7 @@ export class UserRepository{
           });
     }
 
-    async createUsuario(input: Prisma.UsuariosCreateInput){
+    async createUsuario(input: UsuarioInputCreate){
         return this.prisma.usuarios.create({
             data: {
                 ...input

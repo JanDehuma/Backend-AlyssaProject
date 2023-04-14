@@ -21,8 +21,10 @@ export class Usuario implements UserClass {
     @Field((type) => String, {description: "Numero de telefono del usuario"})
     telefono: string;
 
-    //No llevan un campo Field para no mostrarlo en la API
+    @Field((type) => String, {description: "Contraseña del usuario."})
     password: string;
+    
+    //No llevan un campo Field para no mostrarlo en la API
     fechaCreacion: Date;
     fechaModificacion: Date;
     borrado: number;

@@ -3,6 +3,7 @@ import { UserRepository } from './repositories/usuario.repository';
 import { Usuario } from './models/usuario.model';
 import { ResolverService } from '@tsed/typegraphql';
 import { UsuarioInputCreate } from './inputs/usuario.input';
+import { UpdateUsuarioInput } from './inputs/usuario.update.input';
 
 @ResolverService(Usuario)
 export class UsuarioResolver {
@@ -26,4 +27,10 @@ export class UsuarioResolver {
             ...create
         });
     }
+
+    @Mutation((returns) => Usuario,{
+        description: "Mutacion para eliminar un usuario"})
+    deleteUser(@Arg("delete", (type) => ID) id: number) {
+        return this.UserRepository.deleteUsuario(id);
+      }
 }

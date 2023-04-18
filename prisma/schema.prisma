@@ -1,3 +1,12 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
 model Usuarios{
   idUsuario         Int @id @default(autoincrement())
   nombre            String 
@@ -6,7 +15,7 @@ model Usuarios{
   tipoUsuario       Int
   telefono          String
   fechaCreacion     DateTime @default(now())
-  fechaModificacion DateTime
+  fechaModificacion DateTime @updatedAt
   borrado           Int @default(0)
 
   propietarios      Propietarios[]
@@ -14,20 +23,21 @@ model Usuarios{
 
 model Propietarios{
   idPropietario     Int @id @default(autoincrement())
+  idUsuario         Int
   nombre            String 
   apaterno          String
-  amaterno          String
-  correo            String
+  amaterno          String?
+  email             String @unique
   telefono          String
   direccion         String
   rfc               String
   tipoPropietario   Int
   fechaCreacion     DateTime @default(now())
-  fechaModificacion DateTime
+  fechaModificacion DateTime @updatedAt
   borrado           Int @default(0)
-  idUsuario         Int
-
+  
   propiedades       Propiedades[]
+
   
   usuario           Usuarios @relation(fields: [idUsuario], references: [idUsuario])
 }
@@ -39,9 +49,8 @@ model Arrendatarios {
   telefono          String
   rfc               String
   direccion         String
-  foto              FotoArrendatario[]
   fechaCreacion     DateTime @default(now())
-  fechaModificacion DateTime
+  fechaModificacion DateTime @updatedAt
   borrado           Int @default(0)
 
   contrato          Contrato[]
@@ -57,39 +66,23 @@ model Propiedades {
   descripcion           String
   ubicacion             String
   costo                 Float
-  anticipioMinimo       Float 
-  mesesMinimo           Int
+  anticipioMinimo       Float?
+  mesesMinimo           Int?
   fechaCreacion         DateTime @default(now())
-  fechaModificacion     DateTime
-  fotos                 FotoPropiedad[]
+  fechaModificacion     DateTime @updatedAt
   borrado               Int @default(0)
   estado                Boolean @default(false)
+
+  contrato              Contrato[]
+  mantenimiento         Mantenimientos[]
+
   idPropietario         Int
 
-  mantenimientos        Mantenimientos[]
-  contrato              Contrato[]
-
   propietario           Propietarios @relation(fields: [idPropietario], references: [idPropietario])
-
 }
 
-model FotoArrendatario {
-  idFoto                Int @id @default(autoincrement())
-  idArrendatario        Int
-  fechaCreacion         DateTime @default(now())
-  fechaModificacion     DateTime @updatedAt
 
-  arrendatario Arrendatarios @relation(fields: [idArrendatario], references: [idArrendatario])
-}
 
-model FotoPropiedad {
-  idFoto                Int @id @default(autoincrement())
-  idPropiedad           Int
-  fechaCreacion         DateTime @default(now())
-  fechaModificacion     DateTime @updatedAt
-
-  propiedad Propiedades @relation(fields: [idPropiedad], references: [idPropiedad])
-}
 
 model Mantenimientos {
   idMantenimiento         Int @id @default(autoincrement())
@@ -99,7 +92,7 @@ model Mantenimientos {
   precio                  Float
   fechaMantenimiento      DateTime
   fechaCreacion           DateTime @default(now())
-  fechaModificacion       DateTime
+  fechaModificacion       DateTime @updatedAt
   borrado                 Int @default(0)
   //Mantenimiento no va relacionado con el contrato y cada uno va por cuenta del propietario
   idPropiedad             Int
@@ -111,20 +104,19 @@ model Contrato {
   idContrato            Int @id @default(autoincrement())
   contrato              String
   tipoContrato          Int
-  fechaContrato         DateTime
   fechaInicio           DateTime
-  fechaFin              DateTime
-  deposito              Float
+  fechaFin              DateTime //duda sobre si puede ser opcional
+  deposito              Float?
   duracion              Int
   fechaCreacion         DateTime @default(now())
-  fechaModificacion     DateTime
+  fechaModificacion     DateTime @updatedAt
   estado                Boolean @default(true)
   borrado               Int @default(0)
-  idPropiedad           Int
-  idArrendatario        Int
-  idPropietario         Int
 
   pagos                 Pagos[]
+
+  idPropiedad           Int
+  idArrendatario        Int
 
   propiedad             Propiedades @relation(fields: [idPropiedad], references: [idPropiedad])
   arrendatario          Arrendatarios @relation(fields: [idArrendatario], references: [idArrendatario])
@@ -135,7 +127,7 @@ model Pagos {
   fechaVencimiento      DateTime
   fechaPago             DateTime
   pago                  Float
-  numPago               Int  @unique
+  numPago               Int @unique
   mes                   Int @default(1)
   anio                  Int @default(0)
   fechaCracion          DateTime
@@ -146,6 +138,7 @@ model Pagos {
   contrato              Contrato @relation(fields: [idContrato], references: [idContrato])
 }
 
+//Falta llenar
 model Factura {
   idFactura Int @id @default(autoincrement())
   rfcPropietario String

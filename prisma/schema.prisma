@@ -71,7 +71,7 @@ model Propiedades {
   fechaCreacion         DateTime @default(now())
   fechaModificacion     DateTime @updatedAt
   borrado               Int @default(0)
-  estado                Boolean @default(false)
+  estado                Boolean @default(true)
 
   contrato              Contrato[]
   mantenimiento         Mantenimientos[]

@@ -1,11 +1,13 @@
 
 import { Usuarios as UserClass } from "@prisma/client"
 import { Field, ID, Int, ObjectType } from "type-graphql";
+import { UpdateUsuarioInput } from "../inputs/usuario.update.input";
 
 @ObjectType(
     {description: "Credenciales del ususario"
 })
 export class Usuario implements UserClass {
+
     @Field((type) => ID, {description: "Id del ususario"})
     idUsuario: number;
 
@@ -23,9 +25,12 @@ export class Usuario implements UserClass {
 
     @Field((type) => String, {description: "Contraseña del usuario."})
     password: string;
-    
+
+    @Field((type) => Int, {description: "Verifica si esta borrado."})
+    borrado: number;
+
     //No llevan un campo Field para no mostrarlo en la API
     fechaCreacion: Date;
     fechaModificacion: Date;
-    borrado: number;
+
 }

@@ -3,4 +3,5 @@
  */
 
 export * from "./modules/auth/repositories/auth.repository";
+export * from "./modules/propiedades/repositories/propiedad.repository";
 export * from "./modules/usuarios/repositories/usuario.repository";

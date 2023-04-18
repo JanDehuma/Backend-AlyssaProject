@@ -3,7 +3,7 @@
 </p>
 
 <div align="center">
-  <h1>Ts.ED - alyssa-project</h1>
+  <h1>Ts.ED - todolistbackend-migration</h1>
   <br />
   <div align="center">
     <a href="https://cli.tsed.io/">Website</a>

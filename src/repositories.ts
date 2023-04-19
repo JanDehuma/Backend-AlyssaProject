@@ -4,4 +4,8 @@
 
 export * from "./modules/auth/repositories/auth.repository";
 export * from "./modules/propiedades/repositories/propiedad.repository";
+export * from "./modules/arrendatarios/repositories/arrendatario.repository";
+export * from "./modules/auth/repositories/auth.repository";
+export * from "./modules/mantenimientos/repositories/mantenimiento.repository";
+export * from "./modules/propietarios/repositories/propietario.repository";
 export * from "./modules/usuarios/repositories/usuario.repository";

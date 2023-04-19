@@ -1,13 +1,11 @@
 
 import { Usuarios as UserClass } from "@prisma/client"
 import { Field, ID, Int, ObjectType } from "type-graphql";
-import { UpdateUsuarioInput } from "../inputs/usuario.update.input";
 
 @ObjectType(
     {description: "Credenciales del ususario"
 })
 export class Usuario implements UserClass {
-
     @Field((type) => ID, {description: "Id del ususario"})
     idUsuario: number;
 

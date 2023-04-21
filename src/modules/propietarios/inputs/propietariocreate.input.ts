@@ -1,6 +1,6 @@
 import { Propietarios } from "@prisma/client";
 import { IsEmail, MaxLength } from "class-validator";
-import { Field, InputType, Int } from "type-graphql";
+import { Field, ID, InputType, Int } from "type-graphql";
 
 
 @InputType({
@@ -42,6 +42,6 @@ export class PropietarioInput {
     @Field((type) => Int, {description: "Tipo de propietario al que pertenece"})
     tipoPropietario: number;
 
-    @Field((type) => Int, {description: "Id usuario al que pertenece"})
+    @Field((type) => ID, {description: "Id usuario al que pertenece"})
     idUsuario: number;
 }

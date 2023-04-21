@@ -1,6 +1,8 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Injectable } from "@tsed/di";
 import { PropietarioInput } from "../inputs/propietariocreate.input";
+import { PropietarioInputBorrar } from "../inputs/propietarioBorrado.input";
+import { UpdatePropietarioInput } from "../inputs/propietarios.update.input";
 
 @Injectable()
 export class UserRepository{
@@ -26,15 +28,18 @@ export class UserRepository{
         });
     }
 
-    deletePropietario(id: number) {
-        return this.prisma.propietarios.delete({
+    deletePropietario(id: number, update: PropietarioInputBorrar) {
+        return this.prisma.propietarios.update({
             where: {
                 idPropietario: Number(id)
+            },
+            data: {
+                ...update
             }
         });
     }
 
-    updatePropietario(id: number, input: Prisma.PropietariosUpdateInput){
+    updatePropietario(id: number, input: UpdatePropietarioInput){
         return this.prisma.propietarios.update({
             where: {
                 idPropietario: Number(id)

@@ -47,7 +47,7 @@ export class UsuarioResolver {
 
     @Mutation((returns) => Usuario, { description: "Mutación para actualizar un usuario" })
     updateUser(@Arg("id", (type) => ID)id: number,@Arg("update", (type) => UpdateUsuarioInput) update: UpdateUsuarioInput) {
-        return this.UserRepository.updateUsuario(id,update)
+        return this.UserRepository.updateUsuario(id, update)
   }
 
 

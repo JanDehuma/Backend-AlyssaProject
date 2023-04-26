@@ -1,5 +1,6 @@
 
-import { Usuarios as UserClass } from "@prisma/client"
+import { Propietarios, Usuarios as UserClass } from "@prisma/client"
+import { Propiedades } from "src/modules/propiedades/models/propiedad.model";
 import { Field, ID, Int, ObjectType } from "type-graphql";
 
 @ObjectType(
@@ -26,6 +27,9 @@ export class Usuario implements UserClass {
 
     @Field((type) => Int, {description: "Verifica si esta borrado."})
     borrado: number;
+
+    @Field((type) => [Propiedades], {description: "Lista de propiedades"})
+    propietarios: Propietarios[];
 
     //No llevan un campo Field para no mostrarlo en la API
     fechaCreacion: Date;

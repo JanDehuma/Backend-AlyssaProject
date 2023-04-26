@@ -33,7 +33,7 @@ export class Propietario implements UserClass {
     @Field((type) => Int, {description: "Tipo de propietario al que pertenece"})
     tipoPropietario: number;
 
-    @Field((type) => Int, {description: "Id usuario al que pertenece"})
+    @Field((type) => ID, {description: "Identificador del usuario al que pertenece."})
     idUsuario: number;
     
     fechaCreacion: Date;

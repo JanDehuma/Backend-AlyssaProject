@@ -1,5 +1,6 @@
 import "@tsed/platform-express";
 import "@tsed/typegraphql";
+
 import { ExpressContext } from "apollo-server-express";
 import { readFileSync } from "fs";
 import { verify } from "jsonwebtoken";
@@ -8,6 +9,8 @@ import * as modules from "./../modules";
 import { customAuthChecker } from "./authchecker";
 import { envs } from "./envs/index";
 import loggerConfig from "./logger/index";
+
+
 const pkg = JSON.parse(readFileSync("./package.json", { encoding: "utf8" }));
 
 export const config: Partial<TsED.Configuration> = {
@@ -28,7 +31,7 @@ export const config: Partial<TsED.Configuration> = {
         if (token?.length == 2) {
           const payload = verify(token[1], process.env.SECRET ?? "ben") as any;
           return {
-            user: payload
+            usuario: payload
           };
         }
         return {};

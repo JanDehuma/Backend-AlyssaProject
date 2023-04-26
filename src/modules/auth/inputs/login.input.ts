@@ -1,8 +1,4 @@
-// export class LoginInput{
-//     usernameOrEmail: string
-//     password: string
-//}
-import { IsEmail, MaxLength } from "class-validator";
+import { IsEmail, IsStrongPassword, MaxLength } from "class-validator";
 import { Field, InputType } from "type-graphql";
 
 @InputType({
@@ -22,15 +18,15 @@ export class LoginInput {
     description: "Contraseña del usuario, se necesitan minimo 6 caracteres, 1 mayuscula y 1 número."
   })
   @MaxLength(15)
-  // @IsStrongPassword(
-  //   {
-  //     minUppercase: 1,
-  //     minNumbers: 1,
-  //     minLength: 6
-  //   },
-  //   {
-  //     message: "Verifica si el formato de tu contraseña es el correcto."
-  //   }
-  // )
+  @IsStrongPassword(
+     {
+       minUppercase: 1,
+       minNumbers: 1,
+       minLength: 6
+     },
+     {
+       message: "Verifica si el formato de tu contraseña es el correcto."
+     }
+   )
   password: string;
 }

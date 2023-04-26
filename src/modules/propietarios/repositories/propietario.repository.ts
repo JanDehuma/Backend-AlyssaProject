@@ -1,9 +1,11 @@
+import { date } from '@tsed/schema';
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Injectable } from "@tsed/di";
-import { PropietarioInput } from "../inputs/propietariocreate.input";
+import { DeletePropietarioInput } from "../inputs/propietarios.delete.input";
+import { PropietariosInput } from '../inputs/propietarios.input';
 
 @Injectable()
-export class UserRepository{
+export class PropietarioRepository{
     constructor(private readonly prisma: PrismaClient){}
 
     getAllPropietarios(){
@@ -18,24 +20,30 @@ export class UserRepository{
           });
     }
 
-    async createPropietario(input: PropietarioInput){
-        return this.prisma.propietarios.create({
+    async createPropietario(input: PropietariosInput, idUsuario: number){
+        return await this.prisma.propietarios.create({
             data: {
-                ...input
+                ... input,
+                usuario: {
+                    connect: {
+                        idUsuario: idUsuario
+                    }
+                }
             }
         });
     }
 
-    deletePropietario(id: number) {
-        return this.prisma.propietarios.delete({
+    async deletePropietario(id: number, update: DeletePropietarioInput) {
+        return await  this.prisma.propietarios.update({
             where: {
                 idPropietario: Number(id)
-            }
+            },
+            data: update
         });
     }
 
-    updatePropietario(id: number, input: Prisma.PropietariosUpdateInput){
-        return this.prisma.propietarios.update({
+    async updatePropietario(id: number, input: Prisma.PropietariosUpdateInput){
+        return await this.prisma.propietarios.update({
             where: {
                 idPropietario: Number(id)
             },

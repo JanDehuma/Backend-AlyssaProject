@@ -23,7 +23,7 @@ model Usuarios{
 
 model Propietarios{
   idPropietario     Int @id @default(autoincrement())
-  idUsuario         Int
+  
   nombre            String 
   apaterno          String
   amaterno          String?
@@ -35,6 +35,8 @@ model Propietarios{
   fechaCreacion     DateTime @default(now())
   fechaModificacion DateTime @updatedAt
   borrado           Int @default(0)
+
+  idUsuario         Int
   
   propiedades       Propiedades[]
 

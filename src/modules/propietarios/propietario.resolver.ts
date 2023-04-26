@@ -1,7 +1,7 @@
 import { Forbidden } from '@tsed/exceptions';
 import { Arg, Ctx, ID, Mutation, Query } from 'type-graphql';
 import { PropietarioRepository } from './repositories/propietario.repository';
-import { Propietario } from './models/propietario.model';
+import { Propietario } from './models/propiedad.model';
 import { ResolverService } from '@tsed/typegraphql';
 import { ToDoContext } from '../usuarios/models/context.model';
 import { DeletePropietarioInput } from './inputs/propietarios.delete.input';
@@ -32,7 +32,6 @@ export class PropietarioResolver {
                 ...create
             }, ctx.usuario.idUsuario);
         }
-
         throw new Forbidden("Usuario no encontrado")
     }
     

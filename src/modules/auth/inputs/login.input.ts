@@ -18,7 +18,7 @@ export class LoginInput {
     description: "Contraseña del usuario, se necesitan minimo 6 caracteres, 1 mayuscula y 1 número."
   })
   @MaxLength(15)
-  @IsStrongPassword(
+  /*@IsStrongPassword(
      {
        minUppercase: 1,
        minNumbers: 1,
@@ -27,6 +27,6 @@ export class LoginInput {
      {
        message: "Verifica si el formato de tu contraseña es el correcto."
      }
-   )
+   )*/
   password: string;
 }

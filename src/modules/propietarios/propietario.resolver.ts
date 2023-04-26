@@ -42,5 +42,10 @@ export class PropietarioResolver {
         return this.PropietarioRepository.deletePropietario(id,input);
     }
 
-    
+    @Mutation((returns) => Propietario, {
+        description: "Mutacion para actualizar un propietario."
+    })
+    updatePropietario(@Arg("id") id: number, @Arg("update", (type) => UpdatePropietarioInput) update: UpdatePropietarioInput){
+        return this.PropietarioRepository.updatePropietario(id,update)
+    }
 }

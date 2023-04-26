@@ -1,4 +1,3 @@
-import { date } from '@tsed/schema';
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Injectable } from "@tsed/di";
 import { DeletePropietarioInput } from "../inputs/propietarios.delete.input";

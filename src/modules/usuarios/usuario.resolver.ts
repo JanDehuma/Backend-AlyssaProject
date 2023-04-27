@@ -13,12 +13,12 @@ import { UsuarioInputBorrado } from "./inputs/usuario.borrado.input";
 export class UsuarioResolver {
     constructor(private readonly UserRepository: UserRepository){}
 
-    /*@Query((returns) => Usuario)
+    @Query((returns) => Usuario)
     currentUsuario(@Ctx() context: ToDoContext){
-        if(context.user){
-            return this.UserRepository.getUsuario(context.user?.idUsuario)
+        if(context.usuario){
+            return this.UserRepository.getUsuario(context.usuario?.idUsuario)
         }
-    }*/
+    }
 
     @Query((returns) => Usuario)
     obtenerUsuarios(){
@@ -33,10 +33,13 @@ export class UsuarioResolver {
     @Mutation((retruns) => Usuario, {
         description: "Mutacion para crear un ususario"
     })
-    registerUsuario(@Arg("create", (type) => UsuarioInputCreate) create: UsuarioInputCreate){
-        return this.UserRepository.createUsuario({
-            ...create
+    registerUsuario(@Arg("create", (type) => UsuarioInputCreate) create: UsuarioInputCreate, @Ctx() ctx: ToDoContext){
+        if(ctx.usuario)
+            return this.UserRepository.createUsuario({
+                ...create
         });
+
+        throw new Forbidden("Usuario no encontrado");
     }
 
     @Mutation((returns) => Usuario,{

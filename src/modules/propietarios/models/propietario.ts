@@ -1,11 +1,10 @@
-
-import { Propietarios as UserClass } from "@prisma/client"
+import { Propietarios as PropietarioClass } from "@prisma/client"
 import { Authorized, Field, ID, Int, ObjectType } from "type-graphql";
 
 @ObjectType(
     {description: "Credenciales del propietario"
 })
-export class Propietario implements UserClass {
+export class Propietario implements PropietarioClass {
     @Authorized()
     @Field((type) => ID, {description: "Id del propietario"})
     idPropietario: number;

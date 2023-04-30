@@ -52,6 +52,7 @@ export class UserRepository{
         });
     }
 
+    //Revisarlo
     getUsuarioPropietario(id: number){
         return this.prisma.usuarios.findUnique({
             where:{

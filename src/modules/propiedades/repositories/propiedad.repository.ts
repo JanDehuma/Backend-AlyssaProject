@@ -1,8 +1,9 @@
 import { Injectable } from '@tsed/di';
-import { PrismaClient } from "@prisma/client";
-import { PropiedadInput } from '../inputs/propiedad.input';
+import { Prisma, PrismaClient } from "@prisma/client";
 import { UpdateUsuarioInput } from 'src/modules/usuarios/inputs/usuario.update.input';
 import { PropiedadBorradoInput } from '../inputs/propiedad.input.borrado';
+import { PropiedadInput } from '../inputs/propiedad.input';
+import { PropiedadInputUpdate } from '../inputs/propiedad.update';
 
 @Injectable()
 export class PropiedadRepository{
@@ -20,15 +21,20 @@ export class PropiedadRepository{
         return this.prisma.propiedades.findMany();
     }
 
-    async createPropiedades(input: PropiedadInput){
+    async createPropiedades(input: Prisma.PropiedadesCreateInput, idPropietario: number){
         return await this.prisma.propiedades.create({
-            data: {
-                ...input
+            data:{
+                ...input,
+                propietario: {
+                    connect:{
+                        idPropietario:idPropietario
+                    }
+                }
             }
         })
     }
 
-    async updatePropiedad(id: number, update: UpdateUsuarioInput){
+    async updatePropiedad(id: number, update: PropiedadInputUpdate){
         return await this.prisma.propiedades.update({
             where:{
                 idPropiedad: Number(id)
@@ -39,13 +45,13 @@ export class PropiedadRepository{
         })
     }
 
-    async deletePropiedades(id: number, upadte: PropiedadBorradoInput){
+    async deletePropiedades(id: number, update: PropiedadBorradoInput){
         return  this.prisma.propiedades.update({
             where: {
                 idPropiedad: Number(id)
             },
             data: {
-                ...upadte
+                ...update
             }
         })
     }

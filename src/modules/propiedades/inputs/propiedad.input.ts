@@ -1,36 +1,32 @@
-import { MaxLength } from "class-validator";
-import { Field, Float, ID, InputType, Int } from "type-graphql";
+import { Field, Float, ID, Int } from "type-graphql";
 
-@InputType({description: "Input para agregar los campos de la propiedad"})
-export class PropiedadInput {
-    @Field((type) => ID, {description: "Input para el nombre de la propiedad"})
-    @MaxLength(45)
+
+export class PropiedadInput{
+    @Field((type) => ID, {description: "Input del identificador de la propiedad"})
+    idPropiedad: number;
+    
+    @Field((type) => String, {description: "Input del identificador de la propiedad"})
     nombre: string;
 
-    @Field((type) => Int, {description: "Input para el tipo de propiedad"})
+    @Field((type) => Int, {description: "Input del identificador de la propiedad"})
     tipoPropiedad: number;
 
-    @MaxLength(200)
-    @Field((type) => String, {description: "Input para la descripcion"})
+    @Field((type) => String, {description: "Input del identificador de la propiedad"})
     descripcion: string;
 
-    @MaxLength(50)
-    @Field((type) => String, {description: "Input para la ubicacion de la propiedad"})
+    @Field((type) => String, {description: "Input del identificador de la propiedad"})
     ubicacion: string;
 
-    @Field((type) => Float,{description: "Input para el precio de la propiedad"})
+    @Field((type) => Float, {description: "Input del identificador de la propiedad"})
     costo: number;
 
-    @Field((type) => Float,{description: "Input para el anticipo minimo de la propiedad"})
+    @Field((type) => Float, {nullable: true, description: "Input del identificador de la propiedad"})
     anticipioMinimo: number | null;
 
-    @Field((type) => Int, {description: "Input para los meses minimos de la propiedad"})
+    @Field((type) => Int, {nullable: true, description: "Input del identificador de la propiedad"})
     mesesMinimo: number | null;
 
-    @Field((type) => ID, {description: "Input para el propietario de la propiedad"})
+    @Field((type) => ID, {description: "Input del identificador de la propiedad"})
     idPropietario: number;
-
-    @Field((type) => Boolean, {description: "Input para ver el estado de la propiedad"})
-    estado: boolean;
 
 }

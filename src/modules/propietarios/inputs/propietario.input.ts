@@ -1,42 +1,32 @@
+import { Propietarios } from "@prisma/client";
+import { IsEmail } from "class-validator";
 import { Field, InputType, Int } from "type-graphql";
-import { IsEmail, MaxLength } from "class-validator";
 
-@InputType({
-    description: "Input para creacion de propietario."
-})
-export class PropietarioInputCreate {
+@InputType({description: "Input para crear un propiteario"})
+export class PropietariosInput {
 
-    @Field((type) => String, {description: "Nombre del propietario", nullable: true})
-    @MaxLength(20)
+    @Field((type) => String, {description: "Input para el nombre del propietario."})
     nombre: string;
 
-    @Field((type) => String, {description: "Apellido paterno del propietario", nullable: true})
-    @MaxLength(20)
+    @Field((type) => String, {description: "Input para el apellido paterno del propietario."})
     apaterno: string;
 
-    @Field((type) => String, {description: "Apellido materno del propietario", nullable: true})
-    @MaxLength(20)
-    amaterno: string;
-    
-    @Field((type) => String, {description: "Correo electronico del propietario", nullable: true})
-    @MaxLength(30)
-    @IsEmail(undefined, {
-        message: "Verifica que el formato del correo sea el correcto."
-    })
+    @Field((type) => String, {nullable:true ,description: "Input para el apellido materno del propietario."})
+    amaterno: string | null;
+
+    @IsEmail(undefined, {message: "Verifica el formato del correo"})
+    @Field((type) => String, {description: "Input para el correo del propietario."})
     email: string;
 
-    @Field((type) => String, {description: "Numero de telefono del propietario", nullable: true})
-    @MaxLength(13)
+    @Field((type) => String, {description: "Input para el telefono del propietario."})
     telefono: string;
 
-    @Field((type) => String, {description: "Dirección del propietario", nullable: true})
-    @MaxLength(45)
+    @Field((type) => String, {description: "Input para el domicilio del propietario."})
     direccion: string;
 
-    @Field((type) => String, {description: "RFC del propietario", nullable: true})
-    @MaxLength(13)
+    @Field((type) => String, {description: "Input para el RFC del propietario."})
     rfc: string;
 
-    @Field((type) => Int, {description: "Tipo de propietario al que pertenece", nullable: true})
+    @Field((type) => Int, {description: "Input para el tipo de propietario."})
     tipoPropietario: number;
 }

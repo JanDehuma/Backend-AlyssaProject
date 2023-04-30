@@ -1,11 +1,11 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Injectable } from "@tsed/di";
-import { PropietarioInput } from "../inputs/propietariocreate.input";
 import { PropietarioInputBorrar } from "../inputs/propietarioBorrado.input";
 import { UpdatePropietarioInput } from "../inputs/propietarios.update.input";
+import { PropietariosInput } from '../inputs/propietario.input';
 
 @Injectable()
-export class UserRepository{
+export class PropietarioRepository{
     constructor(private readonly prisma: PrismaClient){}
 
     getAllPropietarios(){
@@ -20,10 +20,15 @@ export class UserRepository{
           });
     }
 
-    async createPropietario(input: PropietarioInput){
-        return this.prisma.propietarios.create({
+    async createPropietario(input: PropietariosInput, idUsuario: number){
+        return await this.prisma.propietarios.create({
             data: {
-                ...input
+                ... input,
+                usuario: {
+                    connect: {
+                        idUsuario: idUsuario
+                    }
+                }
             }
         });
     }

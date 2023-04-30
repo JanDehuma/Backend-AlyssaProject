@@ -20,7 +20,7 @@ export class UpdateUsuarioInput {
     @Field((type) => String, {description: "Contraseña del ususario, se necesitan al menos entre 6 y 15 caracteres, 1 mayuscula y un numero.",
     nullable: true})
     @MaxLength(15)
-    password?: String;
+    password: string;
 
     @Field((type) => Int, {description: "Tipo de usuario al que pertenece", nullable: true})
     tipoUsuario: number;

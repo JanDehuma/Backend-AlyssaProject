@@ -17,13 +17,12 @@ model Usuarios{
   fechaCreacion     DateTime @default(now())
   fechaModificacion DateTime @updatedAt
   borrado           Int @default(0)
-
   propietarios      Propietarios[]
 }
 
 model Propietarios{
   idPropietario     Int @id @default(autoincrement())
-  idUsuario         Int
+  
   nombre            String 
   apaterno          String
   amaterno          String?
@@ -35,9 +34,9 @@ model Propietarios{
   fechaCreacion     DateTime @default(now())
   fechaModificacion DateTime @updatedAt
   borrado           Int @default(0)
+  idUsuario         Int
   
   propiedades       Propiedades[]
-
   
   usuario           Usuarios @relation(fields: [idUsuario], references: [idUsuario])
 }
@@ -52,7 +51,6 @@ model Arrendatarios {
   fechaCreacion     DateTime @default(now())
   fechaModificacion DateTime @updatedAt
   borrado           Int @default(0)
-
   contrato          Contrato[]
 }
 
@@ -71,13 +69,10 @@ model Propiedades {
   fechaCreacion         DateTime @default(now())
   fechaModificacion     DateTime @updatedAt
   borrado               Int @default(0)
-  estado                Boolean @default(false)
-
+  estado                Boolean @default(true)
   contrato              Contrato[]
   mantenimiento         Mantenimientos[]
-
   idPropietario         Int
-
   propietario           Propietarios @relation(fields: [idPropietario], references: [idPropietario])
 }
 
@@ -96,7 +91,6 @@ model Mantenimientos {
   borrado                 Int @default(0)
   //Mantenimiento no va relacionado con el contrato y cada uno va por cuenta del propietario
   idPropiedad             Int
-
   propiedad               Propiedades @relation(fields: [idPropiedad], references: [idPropiedad])
 }
 
@@ -112,12 +106,9 @@ model Contrato {
   fechaModificacion     DateTime @updatedAt
   estado                Boolean @default(true)
   borrado               Int @default(0)
-
   pagos                 Pagos[]
-
   idPropiedad           Int
   idArrendatario        Int
-
   propiedad             Propiedades @relation(fields: [idPropiedad], references: [idPropiedad])
   arrendatario          Arrendatarios @relation(fields: [idArrendatario], references: [idArrendatario])
 }
@@ -134,7 +125,6 @@ model Pagos {
   fechaModificacion     DateTime
   borrado               Int
   idContrato            Int
-
   contrato              Contrato @relation(fields: [idContrato], references: [idContrato])
 }
 

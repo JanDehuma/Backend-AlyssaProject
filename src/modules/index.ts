@@ -5,5 +5,6 @@
 export * from "./arrendatarios/arrendatario.resolver";
 export * from "./auth/auth.resolver";
 export * from "./mantenimientos/mantenimiento.resolver";
+export * from "./propiedades/propiedad.resolver";
 export * from "./propietarios/propietario.resolver";
 export * from "./usuarios/usuario.resolver";

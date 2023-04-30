@@ -2,7 +2,7 @@ import { ToDoContext } from "src/modules/usuarios/models/context.model";
 import { AuthChecker } from "type-graphql";
 
 export const customAuthChecker: AuthChecker<ToDoContext> = ({ root, args, context, info }, roles) => {
-  if (context.user) {
+  if (context.usuario) {
     return true;
   }
   return false; // or false if access is denied

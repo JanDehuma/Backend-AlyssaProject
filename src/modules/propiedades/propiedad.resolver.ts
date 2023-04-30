@@ -26,25 +26,25 @@ export class PropiedadesResolver {
     return this.PropiedadRepository.getAllPropiedades();
   }
 
-  @Mutation((returns) => Propiedades, {
-    description: "Mutacion para crear una propiedad."
-  })
-  registerPropiedad(@Arg("create", (type) => PropiedadInput) create: PropiedadInput, @Ctx() ctx: ToDoContext) {
-    if (ctx.usuario) {
-      return this.PropiedadRepository.createPropiedades(
-        {
-          ...create,
-          propietario: {
-            create: undefined,
-            connectOrCreate: undefined,
-            connect: undefined
-          }
-        },
-        ctx.usuario.idUsuario
-      );
-    }
-    throw new Forbidden("Usuario no encontrado");
-  }
+  // @Mutation((returns) => Propiedades, {
+  //   description: "Mutacion para crear una propiedad."
+  // })
+  // registerPropiedad(@Arg("create", (type) => PropiedadInput) create: PropiedadInput, @Ctx() ctx: ToDoContext) {
+  //   if (ctx.usuario) {
+  //     return this.PropiedadRepository.createPropiedades(
+  //       {
+  //         ...create,
+  //         propietario: {
+  //           create: undefined,
+  //           connectOrCreate: undefined,
+  //           connect: undefined
+  //         }
+  //       },
+  //       ctx.usuario.idUsuario
+  //     );
+  //   }
+  //   throw new Forbidden("Usuario no encontrado");
+  // }
 
   @Mutation((returns) => Propiedades, {
     description: "Mutacion para eliminar una propiedad"
@@ -56,13 +56,13 @@ export class PropiedadesResolver {
     throw new Forbidden("Usuario no encontrado");
   }
 
-  @Mutation((returns) => Propiedades, {
-    description: "Mutacion para actualizar una propiedad"
-  })
-  upadtePropiedad(@Arg("id") id: number, @Arg("update", (type) => PropiedadInputUpdate) update: PropiedadInputUpdate, @Ctx() ctx: ToDoContext){
-    if(ctx.usuario)
-      return this.PropiedadRepository.updatePropiedad(id, update);
+  // @Mutation((returns) => Propiedades, {
+  //   description: "Mutacion para actualizar una propiedad"
+  // })
+  // upadtePropiedad(@Arg("id") id: number, @Arg("update", (type) => PropiedadInputUpdate) update: PropiedadInputUpdate, @Ctx() ctx: ToDoContext){
+  //   if(ctx.usuario)
+  //     return this.PropiedadRepository.updatePropiedad(id, update);
 
-    throw new Forbidden("Usuario no encontrado");
-  }
+  //   throw new Forbidden("Usuario no encontrado");
+  // }
 }

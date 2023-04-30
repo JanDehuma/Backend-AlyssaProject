@@ -1,7 +1,8 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Injectable } from "@tsed/di";
-import { DeletePropietarioInput } from "../inputs/propietarios.delete.input";
-import { PropietariosInput } from '../inputs/propietarios.input';
+import { PropietarioInputBorrar } from "../inputs/propietarioBorrado.input";
+import { UpdatePropietarioInput } from "../inputs/propietarios.update.input";
+import { PropietariosInput } from '../inputs/propietario.input';
 
 @Injectable()
 export class PropietarioRepository{

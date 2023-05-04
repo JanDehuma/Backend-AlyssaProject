@@ -40,4 +40,5 @@ export class UpdatePropietarioInput {
 
     @Field((type) => Int, {description: "Tipo de propietario al que pertenece", nullable: true})
     tipoPropietario: number;
+    
 }

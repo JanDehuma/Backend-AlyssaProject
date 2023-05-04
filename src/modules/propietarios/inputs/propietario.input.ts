@@ -29,4 +29,5 @@ export class PropietariosInput {
 
     @Field((type) => Int, {description: "Input para el tipo de propietario."})
     tipoPropietario: number;
+    
 }

@@ -1,66 +1,60 @@
 import { Injectable } from '@tsed/di';
-import { Prisma, PrismaClient } from "@prisma/client";
-import { UpdateUsuarioInput } from 'src/modules/usuarios/inputs/usuario.update.input';
-import { PropiedadBorradoInput } from '../inputs/propiedad.input.borrado';
+import { PrismaClient } from '@prisma/client';
 import { PropiedadInput } from '../inputs/propiedad.input';
 import { PropiedadInputUpdate } from '../inputs/propiedad.update';
+import { PropiedadInputBorrado } from '../inputs/propiedad.borrado';
 
 @Injectable()
-export class PropiedadRepository{
+export class PropiedadRepository {
     constructor(private readonly prisma: PrismaClient){}
+    
 
-    getPropiedades(id:number){
+    obtenerPropiedad(id:number){
         return this.prisma.propiedades.findUnique({
             where: {
                 idPropiedad: Number(id)
             }
-        })
+        });
     }
 
-    getAllPropiedades(){
+    obtenerTodasPropiedades(){
         return this.prisma.propiedades.findMany();
     }
 
-    async createPropiedades(input: Prisma.PropiedadesCreateInput, idPropietario: number){
+    async createPropiedad(input: PropiedadInput, idPropietario:number){
         return await this.prisma.propiedades.create({
             data:{
                 ...input,
-                propietario: {
+                propietario:{
                     connect:{
                         idPropietario:idPropietario
                     }
                 }
             }
-        })
+        }); 
     }
 
-    async updatePropiedad(id: number, update: PropiedadInputUpdate){
+    async borrarPropiedad(id: number, update: PropiedadInputBorrado){
         return await this.prisma.propiedades.update({
             where:{
                 idPropiedad: Number(id)
             },
-            data:{
-                ...update
-            }
-        })
+            data: update
+        });
     }
 
-    async deletePropiedades(id: number, update: PropiedadBorradoInput){
-        return  this.prisma.propiedades.update({
-            where: {
-                idPropiedad: Number(id)
-            },
-            data: {
-                ...update
-            }
-        })
-    }
-
-    getPropiedadPropietario(id: number){
-        return this.prisma.propiedades.findUnique({
+    async actualizarPropiedad(id: number, update: PropiedadInputUpdate){
+        return await this.prisma.propiedades.update({
             where:{
                 idPropiedad: Number(id)
-            }
-        })
+            },
+            data: update
+        });
     }
+
+    obtenerMantenimientosPropiedad(){
+        return this.prisma.propiedades.findMany();
+    }
+
+
 }

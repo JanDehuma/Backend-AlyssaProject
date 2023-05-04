@@ -16,8 +16,6 @@ export class PropietarioResolver {
     Propietario(@Arg("id", (type) => ID) id: number){
         return this.PropietarioRepository.getPropietario(id);
     }
-    throw new Forbidden("Usuario no encontrado");
-  }
 
     @Query((returns) => [Propietario])
     propietarios(){

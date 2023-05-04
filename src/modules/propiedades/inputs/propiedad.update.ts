@@ -1,35 +1,27 @@
-import { MaxLength } from "class-validator";
-import { Field, Float, ID, Int } from "type-graphql";
+import { Field, Float, InputType, Int } from "type-graphql";
 
-
+@InputType({description: "Inputs para la propiedad"})
 export class PropiedadInputUpdate {
-    @Field((type) => ID, {description: "Campo para el nombre de la propiedad"})
-    @MaxLength(45)
+
+    @Field((type)=> String, {description: "Nombre de la propiedad"})
     nombre: string;
 
-    @Field((type) => Int, {description: "Campo para el tipo de propiedad"})
+    @Field((type) => Int, {description: "Tipo de propiedad"})
     tipoPropiedad: number;
 
-    @MaxLength(200)
-    @Field((type) => String, {description: "Campo para la descripcion"})
+    @Field((type) => String, {description: "Descripcion de la propiedad."})
     descripcion: string;
 
-    @MaxLength(50)
-    @Field((type) => String, {description: "Campo para la ubicacion de la propiedad"})
+    @Field((type) => String, {description: "Ubicacion de la propiedad"})
     ubicacion: string;
 
-    @Field((type) => Float, {description: "Campo para el precio de la propiedad"})
+    @Field((type) => Float, {description: "Costo de la propiedad"})
     costo: number;
 
-    @Field((type) => Float, {description: "Campo para el anticipo minimo de la propiedad"})
+    @Field((type) => Int, {description: "Anticipo minimo para la propiedad"})
     anticipioMinimo: number | null;
 
-    @Field((type) => Int, {description: "Campo para los meses minimos de la propiedad"})
+    @Field((type) => Int, {description: "Meses minimo para la propiedad"})
     mesesMinimo: number | null;
 
-    @Field((type) => ID, {description: "Campo para el propietario de la propiedad"})
-    idPropietario: number;
-
-    @Field((type) => Boolean, {description: "Campo para ver el estado de la propiedad"})
-    estado: boolean;
 }

@@ -9,4 +9,5 @@ export class PropietarioInputBorrar {
     @IsDefined()
     @Field((type) => Int, {description: "Campo que se actualiza para hacer el borado."})
     borrado: number;
+    
 }

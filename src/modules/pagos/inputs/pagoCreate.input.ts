@@ -1,10 +1,9 @@
-import { Pagos as UserClass } from "@prisma/client";
-import { Field, Float, ID, Int, ObjectType } from "type-graphql";
+import { Field, Float, ID, InputType, Int } from "type-graphql";
 
-@ObjectType({
-    description: "credencial del pago."
+@InputType({
+    description: "Input para creacion de pagos."
 })
-export class Pago implements UserClass{
+export class PagoInput{
 
     @Field((type) => ID, {description: "Id del pago."})
     idPago: number;
@@ -27,11 +26,7 @@ export class Pago implements UserClass{
     @Field((type) => Int, {description: "año que se va a pagar."})
     anio: number;
 
-    @Field((type) => Int, {description: "Id del contrato que se va a pagar."})
+    @Field((type) => ID, {description: "Id del contrato que se va a pagar."})
     idContrato: number;
-
-    fechaCracion: Date;
-    fechaModificacion: Date;
-    borrado: number;
 
 }

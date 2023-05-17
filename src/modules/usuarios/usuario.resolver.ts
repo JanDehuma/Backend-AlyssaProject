@@ -34,12 +34,9 @@ export class UsuarioResolver {
     description: "Mutacion para crear un ususario"
   })
   registerUsuario(@Arg("create", (type) => UsuarioInputCreate) create: UsuarioInputCreate, @Ctx() ctx: ToDoContext) {
-    if (ctx.usuario)
       return this.UserRepository.createUsuario({
         ...create
-      });
-
-    throw new Forbidden("Usuario no encontrado");
+      })
   }
 
   @Mutation((returns) => Usuario, {

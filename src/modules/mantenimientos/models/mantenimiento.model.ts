@@ -1,12 +1,12 @@
-import { Mantenimientos as UserClass } from "@prisma/client";
-import { date, datetime } from "@tsed/schema";
+import { Mantenimientos } from "@prisma/client";
+import { date } from "@tsed/schema";
 import { Field, Float, ID, Int, ObjectType } from "type-graphql";
 
 @ObjectType({
     description: "Credencial del mantenimiento."
 })
-export class Mantenimiento implements UserClass {
-
+export class MantenimientoModel implements Mantenimientos {
+    
     @Field((type) => ID, {description: "Id del mantenimiento."})
     idMantenimiento: number;
 
@@ -22,12 +22,16 @@ export class Mantenimiento implements UserClass {
     @Field((type) => Float, {description: "Precio del mantenimiento."})
     precio: number;
 
-    // @Field((type) => date, {description: "Fecha del mantenimiento."})
+    @Field((type) => date, {description: "Fecha del mantenimiento."})
     fechaMantenimiento: Date;
 
     @Field((type) => Int, {description: "Id de la propiedad que se le va a hacer el mantenimiento."})
     idPropiedad: number;
 
+    @Field((type) => Boolean, {description: "Estado activo/inactivo del mantenimiento."})
+    estado: boolean;
+
+    
     fechaCreacion: Date;
     fechaModificacion: Date;
     borrado: number;

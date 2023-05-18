@@ -5,6 +5,7 @@ import "@tsed/platform-express"; // /!\ keep this import
 import "@tsed/typegraphql";
 import { config } from "./config/index";
 
+
 @Configuration({
   ...config,
   acceptMimes: ["application/json"],

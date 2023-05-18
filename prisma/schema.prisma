@@ -35,7 +35,8 @@ model Propietarios{
   fechaModificacion DateTime @updatedAt
   borrado           Int @default(0)
   idUsuario         Int
-  
+
+  contratos         Contrato[]
   propiedades       Propiedades[]
   
   usuario           Usuarios @relation(fields: [idUsuario], references: [idUsuario])
@@ -89,6 +90,7 @@ model Mantenimientos {
   fechaCreacion           DateTime @default(now())
   fechaModificacion       DateTime @updatedAt
   borrado                 Int @default(0)
+  estado                  Boolean @default(true)
   //Mantenimiento no va relacionado con el contrato y cada uno va por cuenta del propietario
   idPropiedad             Int
   propiedad               Propiedades @relation(fields: [idPropiedad], references: [idPropiedad])
@@ -106,9 +108,14 @@ model Contrato {
   fechaModificacion     DateTime @updatedAt
   estado                Boolean @default(true)
   borrado               Int @default(0)
+
   pagos                 Pagos[]
+
   idPropiedad           Int
   idArrendatario        Int
+  idPropietario         Int
+  
+  propietario           Propietarios @relation(fields: [idPropietario], references: [idPropietario])
   propiedad             Propiedades @relation(fields: [idPropiedad], references: [idPropiedad])
   arrendatario          Arrendatarios @relation(fields: [idArrendatario], references: [idArrendatario])
 }
@@ -121,11 +128,14 @@ model Pagos {
   numPago               Int @unique
   mes                   Int @default(1)
   anio                  Int @default(0)
-  fechaCracion          DateTime
-  fechaModificacion     DateTime
+  
+  fechaCracion          DateTime @default(now())
+  fechaModificacion     DateTime @updatedAt
+
   borrado               Int
-  idContrato            Int
-  contrato              Contrato @relation(fields: [idContrato], references: [idContrato])
+  idContrato            Int? 
+  
+  contrato              Contrato? @relation(fields: [idContrato], references: [idContrato])
 }
 
 //Falta llenar

@@ -2,7 +2,7 @@ import { Injectable } from '@tsed/di';
 import { PrismaClient } from '@prisma/client';
 import { PropiedadInput } from '../inputs/propiedad.input';
 import { PropiedadInputUpdate } from '../inputs/propiedad.update';
-import { PropiedadInputBorrado } from '../inputs/propiedad.borrado';
+
 
 @Injectable()
 export class PropiedadRepository {
@@ -34,12 +34,14 @@ export class PropiedadRepository {
         }); 
     }
 
-    async borrarPropiedad(id: number, update: PropiedadInputBorrado){
+    async borrarPropiedad(id: number){
         return await this.prisma.propiedades.update({
             where:{
                 idPropiedad: Number(id)
             },
-            data: update
+            data: {
+                borrado: 1
+            }
         });
     }
 

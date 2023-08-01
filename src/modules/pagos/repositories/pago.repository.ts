@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import { Injectable } from "@tsed/di";
-import { PagoInputBorrar } from "../inputs/pagoBorrado.input";
 import { PagoInputCreate } from "../inputs/pago.input";
 
 @Injectable()
@@ -32,13 +31,13 @@ export class PagoRepository{
         })
     }
 
-    deletePago(id: number, update: PagoInputBorrar){
+    deletePago(id: number){
         return this.prisma.pagos.update({
             where: {
                 idPago: Number(id)
             },
             data: {
-                ...update
+                borrado: 1
             }
         });
     }

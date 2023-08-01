@@ -2,7 +2,6 @@ import { ResolverService } from "@tsed/typegraphql";
 import { Pago } from "./models/pago.model";
 import { PagoRepository } from "./repositories/pago.repository";
 import { ID, Query, Arg, Mutation, Ctx } from "type-graphql";
-import { PagoInputBorrar } from "./inputs/pagoBorrado.input";
 import { ToDoContext } from "../usuarios/models/context.model";
 import { Forbidden } from "@tsed/exceptions";
 import { PagoInputCreate } from "./inputs/pago.input";
@@ -25,8 +24,8 @@ export class PagoResolver {
     @Mutation((returns) => Pago, {
         description: "Mutación para eliminar un pago."
     })
-    async deletePago(@Arg("id") id: number, @Arg("delete", (type) => PagoInputBorrar) borrar: PagoInputBorrar, @Ctx() ctx: ToDoContext){
-        if (ctx.usuario) return this.PagoRepository.deletePago(id,borrar)
+    async deletePago(@Arg("id") id: number, @Ctx() ctx: ToDoContext){
+        if (ctx.usuario) return this.PagoRepository.deletePago(id)
 
         throw new Forbidden("Usuario no encontrado");
     }

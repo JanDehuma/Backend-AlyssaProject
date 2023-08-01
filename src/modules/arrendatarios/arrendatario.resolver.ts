@@ -4,7 +4,6 @@ import { Arrendatario } from './models/arrendatario.model';
 import { ResolverService } from '@tsed/typegraphql';
 import { ToDoContext } from "../usuarios/models/context.model";
 import { ArrendatarioInput } from './inputs/arrendatariocreate.input'; 
-import { ArrendatarioInputBorrar } from './inputs/arrendatarioBorrado.input';
 import { UpdateArrendatarioInput } from './inputs/arrendatario.input';
 import { Forbidden } from '@tsed/exceptions';
 
@@ -25,8 +24,9 @@ export class ArrendatarioResolver {
     @Mutation((returns) => Arrendatario, {
         description: "Mutacion para eliminar un Arrendatario"
     })
-    async deleteArrendatario(@Arg("id") id: number, @Arg("update", (type) => ArrendatarioInputBorrar) update: ArrendatarioInputBorrar, @Ctx() ctx:ToDoContext){
-        if (ctx.usuario) return this.UserRepository.deleteArrendatario(id, update);
+    async deleteArrendatario(@Arg("id") id: number, @Ctx() ctx:ToDoContext){
+        if (ctx.usuario) 
+        return this.UserRepository.deleteArrendatario(id);
 
         throw new Forbidden("Usuario no encontrado");
     }

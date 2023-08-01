@@ -2,7 +2,6 @@ import { Forbidden } from "@tsed/exceptions";
 import { ResolverService } from "@tsed/typegraphql";
 import { Arg, Ctx, ID, Mutation, Query } from "type-graphql";
 import { ToDoContext } from "../usuarios/models/context.model";
-import { PropietarioInputBorrar } from "./inputs/propietarioBorrado.input";
 import { PropietariosInput } from "./inputs/propietario.input";
 import { Propietario } from "./models/propietario";
 import { PropietarioRepository } from "./repositories/propietario.repository";
@@ -41,8 +40,9 @@ export class PropietarioResolver {
     @Mutation((returns) => Propietario, {
         description: "Mutacion para eliminar un propietario."
     })
-    async deletePropietario(@Arg("id") id: number, @Arg("update", (type) => PropietarioInputBorrar) update: PropietarioInputBorrar, @Ctx() ctx: ToDoContext) {
-        if (ctx.usuario) return this.PropietarioRepository.deletePropietario(id,update);
+    async deletePropietario(@Arg("id") id: number, @Ctx() ctx: ToDoContext) {
+        if (ctx.usuario) 
+        return this.PropietarioRepository.deletePropietario(id);
 
         throw new Forbidden("Usuario no encontrado");
     }

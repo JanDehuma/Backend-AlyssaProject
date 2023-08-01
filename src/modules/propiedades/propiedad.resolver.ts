@@ -5,7 +5,6 @@ import { PropiedadInput } from "./inputs/propiedad.input";
 import { PropiedadRepository } from "./repositories/propiedad.repository";
 import { ToDoContext } from "../usuarios/models/context.model";
 import { Propiedad } from "./models/propiedad";
-import { PropiedadInputBorrado } from "./inputs/propiedad.borrado";
 import { PropiedadInputUpdate } from "./inputs/propiedad.update";
 
 @ResolverService(Propiedad)
@@ -48,9 +47,9 @@ export class PropiedadesResolver {
   @Mutation((returns) => Propiedad, {
     description: "Mutacion para eliminar una propiedad"
   })
-  deletePropiedad(@Arg("id") id: number, @Arg("delete", (type) => PropiedadInputBorrado)update: PropiedadInputBorrado, @Ctx() ctx: ToDoContext){
+  deletePropiedad(@Arg("id") id: number, @Ctx() ctx: ToDoContext){
     if(ctx.usuario)
-      return this.PropiedadRepository.borrarPropiedad(id, update);
+      return this.PropiedadRepository.borrarPropiedad(id);
 
     throw new Forbidden("Usuario no encontrado");
   }

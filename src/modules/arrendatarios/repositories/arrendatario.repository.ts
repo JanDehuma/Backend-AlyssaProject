@@ -1,7 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Injectable } from "@tsed/di";
 import { ArrendatarioInput } from "../inputs/arrendatariocreate.input";
-import { ArrendatarioInputBorrar } from "../inputs/arrendatarioBorrado.input";
 import { UpdateArrendatarioInput } from "../inputs/arrendatario.input";
 
 @Injectable()
@@ -20,13 +19,13 @@ export class UserRepository{
         });
     }
 
-    deleteArrendatario(id: number, update: ArrendatarioInputBorrar) {
+    deleteArrendatario(id: number) {
         return this.prisma.arrendatarios.update({
             where: {
                 idArrendatario: Number(id)
             },
             data: {
-                ...update
+                borrado: 1
             }
         });
     }

@@ -2,7 +2,6 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import { Injectable } from "@tsed/di";
 import { MantenimientoInput } from "../inputs/mantenimientocreate.input";
 import { UpdateMantenimientoInput } from "../inputs/mantenimientos.update.input";
-import { MantenimientoInputBorrar } from "../inputs/mantenimientoBorrado.input";
 
 @Injectable()
 export class UserRepository{
@@ -20,13 +19,13 @@ export class UserRepository{
         });
     }
 
-    deleteMantenimiento(id: number, update: MantenimientoInputBorrar){
+    deleteMantenimiento(id: number){
         return this.prisma.mantenimientos.update({
             where: {
                 idMantenimiento: Number(id)
             },
             data: {
-                ...update
+                borrado: 1
             }
         });
     }

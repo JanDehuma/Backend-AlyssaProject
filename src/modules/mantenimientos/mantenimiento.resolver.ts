@@ -5,7 +5,6 @@ import { UserRepository } from './repositories/mantenimiento.repository';
 import { Mantenimiento } from './models/mantenimiento.model';
 import { ResolverService } from '@tsed/typegraphql';
 import { MantenimientoInput } from './inputs/mantenimientocreate.input';
-import { MantenimientoInputBorrar } from './inputs/mantenimientoBorrado.input';
 import { UpdateMantenimientoInput } from './inputs/mantenimientos.update.input';
 
 @ResolverService(Mantenimiento)
@@ -25,8 +24,9 @@ export class MantenimientoResolover {
     @Mutation((returns) => Mantenimiento, {
         description: "Mutacion para eliminar un mantenimiento."
     })
-    async deleteMantenimiento(@Arg("id") id: number, @Arg("update", (type) => MantenimientoInputBorrar) update: MantenimientoInputBorrar, @Ctx() ctx: ToDoContext) {
-        if (ctx.usuario) return this.UserRepository.deleteMantenimiento(id, update);
+    async deleteMantenimiento(@Arg("id") id: number, @Ctx() ctx: ToDoContext) {
+        if (ctx.usuario) 
+        return this.UserRepository.deleteMantenimiento(id);
 
         throw new Forbidden("Usuario no encontrado");
     }

@@ -3,7 +3,6 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import { Injectable } from "@tsed/di";
 import { UsuarioInputCreate } from "../inputs/usuario.input";
 import { UpdateUsuarioInput } from '../inputs/usuario.update.input';
-import { UsuarioInputBorrado } from '../inputs/usuario.borrado.input';
 
 
 @Injectable()
@@ -32,13 +31,13 @@ export class UserRepository{
         });
     }
 
-    deleteUsuario(id: number, update: UsuarioInputBorrado) {
+    deleteUsuario(id: number) {
         return this.prisma.usuarios.update({
             where: {
                 idUsuario: Number(id)
             },
             data: {
-                ...update
+                borrado: 1
             }
         });
     }

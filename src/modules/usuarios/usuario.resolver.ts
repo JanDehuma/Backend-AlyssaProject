@@ -2,7 +2,6 @@ import { Forbidden } from "@tsed/exceptions";
 import { ResolverService } from "@tsed/typegraphql";
 import { Arg, Ctx, FieldResolver, ID, Mutation, Query, Root } from "type-graphql";
 import { Propietario } from "../propietarios/models/propietario";
-import { UsuarioInputBorrado } from "./inputs/usuario.borrado.input";
 import { UsuarioInputCreate } from "./inputs/usuario.input";
 import { UpdateUsuarioInput } from "./inputs/usuario.update.input";
 import { ToDoContext } from "./models/context.model";
@@ -45,8 +44,8 @@ export class UsuarioResolver {
   @Mutation((returns) => Usuario, {
     description: "Mutacion para eliminar un usuario"
   })
-  deleteUsuario(@Arg("id") id: number, @Arg("update", (type) => UsuarioInputBorrado) input: UsuarioInputBorrado, @Ctx() ctx: ToDoContext) {
-    if (ctx.usuario) return this.UserRepository.deleteUsuario(id, input);
+  deleteUsuario(@Arg("id") id: number, @Ctx() ctx: ToDoContext) {
+    if (ctx.usuario) return this.UserRepository.deleteUsuario(id);
 
     throw new Forbidden("Usuario no encontrado");
   }
